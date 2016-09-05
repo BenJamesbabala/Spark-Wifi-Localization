@@ -1,5 +1,5 @@
 //package org.apache.spark.examples
-package com.tencent.tdw.spark.interview
+package com.spark.interview
 
 import scala.collection.mutable
 import breeze.linalg._
@@ -19,7 +19,7 @@ object Localization {
   we use Weiszfeld's algorithm to avoid calculate gradients.
   https://en.wikipedia.org/wiki/Geometric_median
    */
-  def bestL1Predict(points: Array[DenseVector[Double]], iter: Int): DenseVector[Double] = {
+  def bestEuclideanDistancePredict(points: Array[DenseVector[Double]], iter: Int): DenseVector[Double] = {
     val smallDouble = 0.01
     var ret= new DenseVector(points(0).toArray)
     for (i <- 1 to iter) {
