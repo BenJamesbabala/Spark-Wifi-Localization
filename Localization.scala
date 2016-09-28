@@ -96,7 +96,7 @@ object Localization {
     // then calculate the result off validation
   }
 
-  def newOneMillionDollarsMethodTrain(sc:SparkContext): Unit = {
+  def newProbabilityTrainOffline(sc:SparkContext): Unit = {
     // raw is training data which is 'mac_i:x,y,signal' each line
     val raw = sc.textFile("hdfs://path")
     val kv = raw.map(line=>{
@@ -148,7 +148,7 @@ object Localization {
     return ret
   }
 
-  def newOneMillionDollarsMethodValidation(sc:SparkContext, model: mutable.HashMap[String,GaussianMixtureModel]): Unit = {
+  def newProbabilityValidationOffline(sc:SparkContext, model: mutable.HashMap[String,GaussianMixtureModel]): Unit = {
     // raw is localization context, which is 'real_x,real_y,mac1,mac2,mac3,...' each line
     val raw = sc.textFile("hdfs://path")
     val broadcastModel = sc.broadcast(model)
@@ -184,9 +184,9 @@ object Localization {
     oldValidationOffline(sc,oldModels)
 
     // new method
-    newOneMillionDollarsMethodTrain(sc)
+    newProbabilityTrainOffline(sc)
     // suppose we have load models from new1000kMillionDollarsMethodTrain
     val newModels = new mutable.HashMap[String,GaussianMixtureModel]()
-    newOneMillionDollarsMethodValidation(sc,newModels)
+    newProbabilityValidationOffline(sc,newModels)
   }
 }
